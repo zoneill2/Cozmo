@@ -12,29 +12,21 @@ import keyboard  # using module keyboard
 from pynput import keyboard
 
 
-class ControlCozmo:
 
-    def __init__(self, coz):
-        self.cozmo = coz
-        while True:
-            
+def run(sdk_conn):
+    robot = sdk_conn.wait_for_robot()
+    robot.enable_device_imu(True,True,True)
+    
+    global remote_control_cozmo
+    
+    robot.camera.image_stream_enabled = True
+    
+    while True:
+        theCamera = cozmo.camera.Camera()
+    
+cozmo.connect(run)
+    
     
 
-    def on_press(key):
-        if key == keyboard.KeyCode(char='w'):
-            try:
-                print('- Started recording -'.format(key))
-            except IOError:
-                print("Error")
-        else:
-            print('incorrect character {0}, press cmd_l'.format(key))
 
 
-    def on_release(key):
-        print('{0} released'.format(key))
-        if key == keyboard.KeyCode(char='w'):
-            print('{0} stop'.format(key))
-
-
-    with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
-        listener.join()
